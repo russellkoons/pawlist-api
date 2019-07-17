@@ -1,0 +1,11 @@
+{
+  "name": "pawlist-api",
+  "version": "1.0.0",
+  "description": "API for Pawlist",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "",
+  "license": "ISC"
+}
