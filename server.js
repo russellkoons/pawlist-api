@@ -29,7 +29,7 @@ app.use(express.json());
 app.use(morgan('common'));
 
 app.get('*', (req, res) => {
-  return res.status(204).json({ data: 'Hello there' });
+  return res.status(202).json({ data: 'Hello there' });
 });
 
 let server;
