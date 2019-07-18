@@ -10,3 +10,7 @@ mongoose.set('useFindAndModify', false);
 
 mongoose.Promise = global.Promise;
 
+const { DATABASE_URL, PORT } = require('./config');
+
+const app = express();
+
