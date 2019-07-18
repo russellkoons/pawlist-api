@@ -28,6 +28,10 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(morgan('common'));
 
+app.get('*', (req, res) => {
+  return res.status(204).json({ data: 'Hello there' });
+});
+
 let server;
 
 function runServer(databaseUrl, port = PORT) {
