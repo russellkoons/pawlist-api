@@ -8,6 +8,8 @@ const mongoose = require('mongoose');
 
 mongoose.set('useFindAndModify', false);
 
+const{ router: usersRouter } = require('./users');
+
 mongoose.Promise = global.Promise;
 
 const { DATABASE_URL, PORT } = require('./config');
@@ -27,6 +29,7 @@ app.use(function (req, res, next) {
 app.use(express.static('public'));
 app.use(express.json());
 app.use(morgan('common'));
+app.use('/users', usersRouter);
 
 app.get('*', (req, res) => {
   return res.status(202).json({ data: 'Hello there' });
