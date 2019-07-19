@@ -8,7 +8,8 @@ const mongoose = require('mongoose');
 
 mongoose.set('useFindAndModify', false);
 
-const{ router: usersRouter } = require('./users');
+const { router: usersRouter } = require('./users');
+const { router: authRouter, local, jwt } = require('./auth');
 
 mongoose.Promise = global.Promise;
 
@@ -30,6 +31,18 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(morgan('common'));
 app.use('/users', usersRouter);
+app.use('/auth', authRouter);
+
+passport.use(local);
+passport.use(jwt);
+
+const jwtAuth = passport.authenticate('jwt', { session: false });
+
+app.get('/secret', jwtAuth, (req, res) => {
+  return res.json({
+    data: 'It\'s a secret to everyone!'
+  });
+});
 
 app.get('*', (req, res) => {
   return res.status(202).json({ data: 'Hello there' });
