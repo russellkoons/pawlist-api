@@ -7,6 +7,7 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 
 mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 
 const { router: usersRouter } = require('./users');
 const { router: authRouter, local, jwt } = require('./auth');
