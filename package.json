@@ -12,7 +12,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "npm test",
+    "test": "mocha --exit",
     "start": "node server.js"
   },
   "repository": {
