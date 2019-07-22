@@ -15,7 +15,40 @@ const { TEST_DATABASE_URL, JWT_SECRET } = require('../config');
 chai.use(chaiHttp);
 
 function seedPets() {
-  
+  console.info('Seeding pets to the test server');
+  const seed = [];
+  for (let i = 0; i <= 5; i++) {
+    seed.push(generatePets());
+  }
+  return Pet.insertMany(seed);
+}
+
+function generatePets() {
+  return {
+    user: 'testUser',
+    name: faker.name.findName(),
+    info: {
+      petType: faker.random.word(),
+      breed: faker.random.word(),
+      weight: faker.random.number()
+    },
+    vet: {
+      name: faker.name.getName(),
+      address: faker.random.words(),
+      shots: {
+        rabies: {
+          date: new Date(),
+          frequency: 'Yearly'
+        }
+      }
+    },
+    pic: faker.random.word()
+  }
+}
+
+function deleteDb() {
+  console.warn('Deleting test database');
+  return mongoose.connection.dropDatabase();
 }
 
 describe('Testing the server', function() {

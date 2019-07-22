@@ -11,7 +11,8 @@ const petSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  vet: {type: Array},
+  info: {type: Object},
+  vet: {type: Object},
   pic: {type: String}
 });
 
@@ -20,6 +21,7 @@ petSchema.methods.serialize = function() {
     id: this._id,
     user: this.user,
     name: this.name,
+    info: this.info,
     vet: this.vet,
     pic: this.pic
   }
