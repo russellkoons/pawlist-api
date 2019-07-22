@@ -177,6 +177,25 @@ describe('Pet Router', function() {
         });
     });
   });
+
+  describe('DELETE', function() {
+    it('Should delete pet by id', function() {
+      let pet;
+      return Pet
+        .findOne()
+        .then(p => {
+          pet = p;
+          return chai.request(app).delete('/pets/' + pet.id);
+        })
+        .then(res => {
+          expect(res).to.have.status(204);
+          return Pet.findById(pet.id);
+        })
+        .then(_pet => {
+          expect(_pet).to.be.null;
+        });
+    });
+  });
 });
 
 describe('User Router', function() {
