@@ -5,6 +5,28 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
+const eventSchema = mongoose.Schema({
+  user: {type: String},
+  name: {
+    type: String,
+    required: true
+  },
+  info: {type: String},
+  date: {type: String},
+  frequency: {type: String}
+});
+
+eventSchema.methods.serialize = function() {
+  return {
+    id: this._id,
+    user: this.user,
+    name: this.name,
+    info: this.info,
+    date: this.date,
+    frequency: this.frequency
+  }
+}
+
 const petSchema = mongoose.Schema({
   user: {type: String},
   name: {
@@ -53,8 +75,10 @@ userSchema.statics.hashPassword = function(password) {
   return bcrypt.hash(password, 10);
 }
 
+const Event = mongoose.model('event', eventSchema);
+
 const Pet = mongoose.model('pet', petSchema);
 
 const User = mongoose.model('user', userSchema);
 
-module.exports = { Pet, User };
+module.exports = { Event, Pet, User };
