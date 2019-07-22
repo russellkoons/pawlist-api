@@ -5,6 +5,7 @@ const chaiHttp = require('chai-http');
 const faker = require('faker');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const moment = require('moment');
 
 const expect = chai.expect;
 
@@ -37,7 +38,7 @@ function generatePets() {
       address: faker.random.words(),
       shots: {
         rabies: {
-          date: new Date(),
+          date: moment(),
           frequency: 'Yearly'
         }
       }
@@ -93,6 +94,46 @@ describe('Pet Router', function() {
         })
         .then(count => {
           expect(res.body).to.have.length(count);
+        });
+    });
+
+    it('Should have correct fields', function() {
+      let resPet;
+      return chai
+        .request(app)
+        .get('/pets')
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a('array');
+          expect(res.body).to.have.lengthOf.at.least(1);
+          res.body.forEach(pet => {
+            expect(pet).to.be.a('object');
+            expect(pet).to.include.keys(
+              'id', 'user', 'name', 'info', 'vet', 'pic'
+            );
+            expect(pet.info).to.include.keys(
+              'petType', 'breed', 'weight'
+            );
+            expect(pet.vet).to.include.keys(
+              'name', 'address', 'shots'
+            );
+          });
+          resPet = res.body[0];
+          return Pet.findById(resPet.id);
+        })
+        .then(pet => {
+          expect(resPet.id).to.equal(pet.id);
+          expect(resPet.user).to.equal(pet.user);
+          expect(resPet.name).to.equal(pet.name);
+          expect(resPet.info.petType).to.equal(pet.info.petType);
+          expect(resPet.info.breed).to.equal(pet.info.breed);
+          expect(resPet.info.weight).to.equal(pet.info.weight);
+          expect(resPet.vet.name).to.equal(pet.vet.name);
+          expect(resPet.vet.address).to.equal(pet.vet.address);
+          expect(resPet.vet.shots.rabies.date).to.equal(pet.vet.shots.rabies.date);
+          expect(resPet.vet.shots.rabies.frequency).to.equal(pet.vet.shots.rabies.frequency);
+          expect(resPet.pic).to.equal(pet.pic);
         });
     });
   });
