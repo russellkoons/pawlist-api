@@ -18,7 +18,7 @@ chai.use(chaiHttp);
 function seedPets() {
   console.info('Seeding pets to the test server');
   const seed = [];
-  for (let i = 0; i <= 5; i++) {
+  for (let i = 0; i < 5; i++) {
     seed.push(generatePets());
   }
   return Pet.insertMany(seed);
