@@ -11,6 +11,7 @@ mongoose.set('useCreateIndex', true);
 
 const { router: usersRouter } = require('./users');
 const { router: authRouter, local, jwt } = require('./auth');
+const { router: petRouter } = require('./pets');
 
 mongoose.Promise = global.Promise;
 
@@ -33,6 +34,8 @@ app.use(express.json());
 app.use(morgan('common'));
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+app.use('/pets', petRouter);
+
 
 passport.use(local);
 passport.use(jwt);

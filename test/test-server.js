@@ -26,14 +26,14 @@ function seedPets() {
 function generatePets() {
   return {
     user: 'testUser',
-    name: faker.name.findName(),
+    name: faker.random.word(),
     info: {
       petType: faker.random.word(),
       breed: faker.random.word(),
       weight: faker.random.number()
     },
     vet: {
-      name: faker.name.getName(),
+      name: faker.random.word(),
       address: faker.random.words(),
       shots: {
         rabies: {
@@ -59,6 +59,42 @@ describe('Testing the server', function() {
       .then(res => {
         expect(res).to.have.status(202);
       });
+  });
+});
+
+describe('Pet Router', function() {
+  before(function() {
+    return runServer(TEST_DATABASE_URL);
+  });
+
+  beforeEach(function() {
+    return seedPets();
+  });
+
+  afterEach(function() {
+    return deleteDb();
+  });
+
+  after(function() {
+    return closeServer();
+  });
+
+  describe('GET', function() {
+    it('Should return pets', function() {
+      let res;
+      return chai
+        .request(app)
+        .get('/pets')
+        .then(r => {
+          res = r;
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.lengthOf.at.least(1);
+          return Pet.countDocuments();
+        })
+        .then(count => {
+          expect(res.body).to.have.length(count);
+        });
+    });
   });
 });
 
