@@ -81,5 +81,25 @@ describe('User Router', function() {
           expect(res.location).to.equal('password');
         });
     });
+
+    it('Should reject too short usernames', function() {
+      return chai
+        .request(app)
+        .post('/users')
+        .send({
+          username: '',
+          password
+        })
+        .catch(err => {
+          if (err instanceof chai.AssertionError) {
+            throw err;
+          }
+          const res = err.response.body;
+          expect(res).to.have.status(422);
+          expect(res.reason).to.equal('ValidationError');
+          expect(res.message).to.equal('Must be at least 1 characters long');
+          expect(res.location).to.equal('username');
+        });
+    });
   });
 });
