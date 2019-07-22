@@ -24,3 +24,42 @@ describe('Testing the server', function() {
       });
   });
 });
+
+describe('User Router', function() {
+  const username = 'testUser';
+  const password = 'password';
+
+  before(function() {
+    return runServer(TEST_DATABASE_URL);
+  });
+
+  after(function() {
+    return closeServer();
+  });
+
+  afterEach(function() {
+    return User.deleteOne({ username: 'testUser' });
+  });
+
+  describe('POST', function() {
+    it('Should reject non-trimmed usernames', function() {
+      return chai
+        .request(app)
+        .post('/users')
+        .send({
+          username: ` ${username} `,
+          password
+        })
+        .catch(err => {
+          if (err instanceof chai.AssertionError) {
+            throw err;
+          }
+          const res = err.response.body;
+          expect(res).to.have.status(422);
+          expect(res.reason).to.equal('ValidationError');
+          expect(res.message).to.equal('Username or Password cannot have whitespace');
+          expect(res.location).to.equal('username');
+        });
+    });
+  });
+});
