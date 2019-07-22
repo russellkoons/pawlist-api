@@ -198,48 +198,6 @@ describe('User Router', function() {
         });
     });
 
-    it('Should reject too short usernames', function() {
-      return chai
-        .request(app)
-        .post('/users')
-        .send({
-          username: 'a',
-          password
-        })
-        .catch(err => {
-          if (err instanceof chai.AssertionError) {
-            throw err;
-          }
-          const res = err.response;
-          const body = res.body;
-          expect(res).to.have.status(422);
-          expect(body.reason).to.equal('ValidationError');
-          expect(body.message).to.equal('Must be at least 2 characters long');
-          expect(body.location).to.equal('username');
-        });
-    });
-
-    it('Should reject too long usernames', function() {
-      return chai
-        .request(app)
-        .post('/users')
-        .send({
-          username: 'ThisUserNameIsSoDangLongWhatTheHeck',
-          password
-        })
-        .catch(err => {
-          if (err instanceof chai.AssertionError) {
-            throw err;
-          }
-          const res = err.response;
-          const body = res.body;
-          expect(res).to.have.status(422);
-          expect(body.reason).to.equal('ValidationError');
-          expect(body.message).to.equal('Must be at most 16 characters long');
-          expect(body.location).to.equal('username');
-        });
-    });
-
     it('Should create a new user', function() {
       return chai
         .request(app)
@@ -301,7 +259,7 @@ describe('Auth Router', function() {
           expect(res).to.have.status(400);
         });
     });
-    
+
     it('should reject incorrect usernames', function() {
       return chai
         .request(app)

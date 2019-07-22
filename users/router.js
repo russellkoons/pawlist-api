@@ -22,32 +22,6 @@ router.post('/', jsonParser, (req, res) => {
     });
   }
 
-  const sizedFields = {
-    username: {
-      min: 2,
-      max: 16
-    }
-  }
-
-  const tooSmall = Object.keys(sizedFields).find(field => {
-    'min' in sizedFields[field] && req.body[field].trim.length < sizedFields[field].min;
-  });
-
-  const tooLarge = Object.keys(sizedFields).find(field => {
-    'max' in sizedFields[field] && req.body[field].trim.length > sizedFields[field].min;
-  });
-
-  if (tooSmall || tooLarge) {
-    return res.status(422).json({
-      code: 422,
-      reason: 'ValidationError',
-      message: tooSmall
-        ? `Must be at least ${sizedFields[tooSmall].min} characters long`
-        : `Must be at most ${sizedFields[tooLarge].max} characters long`,
-        location: tooSmall || tooLarge
-    });
-  }
-
   let { username, password } = req.body;
 
   return User.find({username})
