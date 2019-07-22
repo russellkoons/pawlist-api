@@ -125,5 +125,29 @@ describe('User Router', function() {
           expect(body.location).to.equal('username');
         });
     });
+
+    it('Should create a new user', function() {
+      return chai
+        .request(app)
+        .post('/users')
+        .send({
+          username,
+          password
+        })
+        .then(res => {
+          expect(res).to.have.status(201);
+          expect(res.body).to.be.a('object');
+          expect(res.body).to.have.keys('username');
+          expect(res.body.username).to.equal(username);
+          return User.findOne({ username });
+        })
+        .then(user => {
+          expect(user).to.not.be.null;
+          return user.validatePassword(password);
+        })
+        .then(correct => {
+          expect(correct).to.be.true;
+        });
+    });
   });
 });
