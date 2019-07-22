@@ -61,5 +61,25 @@ describe('User Router', function() {
           expect(res.location).to.equal('username');
         });
     });
+
+    it('Should reject non-trimmed passwords', function() {
+      return chai
+        .request(app)
+        .post('/users')
+        .send({
+          username,
+          password: ` ${password} `
+        })
+        .catch(err => {
+          if (err instanceof chai.AssertionError) {
+            throw err;
+          }
+          const res = err.response.body;
+          expect(res).to.have.status(422);
+          expect(res.reason).to.equal('ValidationError');
+          expect(res.message).to.equal('Username or Password cannot have whitespace');
+          expect(res.location).to.equal('password');
+        });
+    });
   });
 });
