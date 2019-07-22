@@ -301,6 +301,7 @@ describe('Auth Router', function() {
           expect(res).to.have.status(400);
         });
     });
+    
     it('should reject incorrect usernames', function() {
       return chai
         .request(app)
@@ -311,6 +312,7 @@ describe('Auth Router', function() {
           expect(res).to.have.status(401);
         });
     });
+
     it('should reject incorrect passwords', function() {
       return chai
         .request(app)
@@ -321,6 +323,7 @@ describe('Auth Router', function() {
           expect(res).to.have.status(401);
         });
     });
+
     it('should return a valid auth token', function() {
       return chai
         .request(app)
@@ -352,6 +355,7 @@ describe('Auth Router', function() {
           expect(res).to.have.status(401);
         });
     });
+
     it('should reject invalid tokens', function() {
       const token = jwt.sign(
         {
@@ -375,6 +379,7 @@ describe('Auth Router', function() {
           expect(res).to.have.status(401);
         });
     });
+
     it('should reject expired tokens', function() {
       const token = jwt.sign(
         {
@@ -398,6 +403,7 @@ describe('Auth Router', function() {
           expect(res).to.have.status(401);
         });
     });
+
     it('should return a newer token', function() {
       return chai
       .request(app)
