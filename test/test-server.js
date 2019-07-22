@@ -38,7 +38,7 @@ function generatePets() {
       address: faker.random.words(),
       shots: {
         rabies: {
-          date: moment(),
+          date: moment().format(),
           frequency: 'Yearly'
         }
       }
@@ -134,6 +134,46 @@ describe('Pet Router', function() {
           expect(resPet.vet.shots.rabies.date).to.equal(pet.vet.shots.rabies.date);
           expect(resPet.vet.shots.rabies.frequency).to.equal(pet.vet.shots.rabies.frequency);
           expect(resPet.pic).to.equal(pet.pic);
+        });
+    });
+  });
+
+  describe('POST', function() {
+    it('Should add a new pet', function() {
+      const newPet = generatePets();
+      return chai
+        .request(app)
+        .post('/pets')
+        .send(newPet)
+        .then(res => {
+          expect(res).to.have.status(201);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a('object');
+          expect(res.body).to.include.keys(
+            'id', 'user', 'name', 'info', 'vet', 'pic'
+          );
+          expect(res.body.id).to.not.be.null;
+          expect(res.body.user).to.equal(newPet.user);
+          expect(res.body.name).to.equal(newPet.name);
+          expect(res.body.info.petType).to.equal(newPet.info.petType);
+          expect(res.body.info.breed).to.equal(newPet.info.breed);
+          expect(res.body.info.weight).to.equal(newPet.info.weight);
+          expect(res.body.vet.name).to.equal(newPet.vet.name);
+          expect(res.body.vet.address).to.equal(newPet.vet.address);
+          expect(res.body.vet.shots.rabies.date).to.equal(newPet.vet.shots.rabies.date);
+          expect(res.body.vet.shots.rabies.frequency).to.equal(newPet.vet.shots.rabies.frequency);
+          return Pet.findById(res.body.id);
+        })
+        .then(pet => {
+          expect(pet.user).to.equal(newPet.user);
+          expect(pet.name).to.equal(newPet.name);
+          expect(pet.info.petType).to.equal(newPet.info.petType);
+          expect(pet.info.breed).to.equal(newPet.info.breed);
+          expect(pet.info.weight).to.equal(newPet.info.weight);
+          expect(pet.vet.name).to.equal(newPet.vet.name);
+          expect(pet.vet.address).to.equal(newPet.vet.address);
+          expect(pet.vet.shots.rabies.date).to.equal(newPet.vet.shots.rabies.date);
+          expect(pet.vet.shots.rabies.frequency).to.equal(newPet.vet.shots.rabies.frequency);
         });
     });
   });

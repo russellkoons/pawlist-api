@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
     user: req.body.user,
     name: req.body.name,
     info: req.body.info,
-    vet: req.body.info,
+    vet: req.body.vet,
     pic: req.body.pic
   })
   .then(pet => res.status(201).json(pet.serialize()))
