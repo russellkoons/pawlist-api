@@ -174,7 +174,7 @@ describe('Auth Router', function() {
   });
 
   afterEach(function() {
-    return User.remove({});
+    return User.deleteOne({ username: 'testUser' });
   });
 
   describe('Login', function() {
