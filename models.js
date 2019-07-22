@@ -5,6 +5,26 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
+const petSchema = mongoose.Schema({
+  user: {type: String},
+  name: {
+    type: String,
+    required: true
+  },
+  vet: {type: Array},
+  pic: {type: String}
+});
+
+petSchema.methods.serialize = function() {
+  return {
+    id: this._id,
+    user: this.user,
+    name: this.name,
+    vet: this.vet,
+    pic: this.pic
+  }
+}
+
 const userSchema = mongoose.Schema({
   username: {
     type: String,
@@ -31,6 +51,8 @@ userSchema.statics.hashPassword = function(password) {
   return bcrypt.hash(password, 10);
 }
 
+const Pet = mongoose.model('pet', petSchema);
+
 const User = mongoose.model('user', userSchema);
 
-module.exports = { User };
+module.exports = { Pet, User };
