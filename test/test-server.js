@@ -14,3 +14,13 @@ const { TEST_DATABASE_URL, JWT_SECRET } = require('../config');
 
 chai.use(chaiHttp);
 
+describe('Testing the server', function() {
+  it('should respond', function() {
+    return chai
+      .request(app)
+      .get('/')
+      .then(res => {
+        expect(res).to.have.status(202);
+      });
+  });
+});
