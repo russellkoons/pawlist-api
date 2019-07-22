@@ -178,6 +178,60 @@ describe('Pet Router', function() {
     });
   });
 
+  describe('PUT', function() {
+    it('should update fields you send', function() {
+      const updateData = {
+        name: 'Margot',
+        info: {
+          petType: 'Cat',
+          breed: 'Short Hair Calico',
+          weight: '15lbs'
+        },
+        vet: {
+          name: 'Dr. Cown',
+          address: 'Athens, GA',
+          shots: {
+            rabies: {
+              date: moment().format(),
+              frequency: 'Monthly'
+            }
+          }
+        },
+        pic: 'www.cutecat.com'
+      };
+      return Pet
+        .findOne()
+        .then(pet => {
+          updateData.id = pet.id;
+          return chai.request(app)
+            .put(`/pets/${pet.id}`)
+            .send(updateData);
+        })
+        .then(res => {
+          expect(res).to.have.status(201);
+          expect(res.body.name).to.equal(updateData.name);
+          expect(res.body.info.petType).to.equal(updateData.info.petType);
+          expect(res.body.info.breed).to.equal(updateData.info.breed);
+          expect(res.body.info.weight).to.equal(updateData.info.weight);
+          expect(res.body.vet.name).to.equal(updateData.vet.name);
+          expect(res.body.vet.address).to.equal(updateData.vet.address);
+          expect(res.body.vet.shots.rabies.date).to.equal(updateData.vet.shots.rabies.date);
+          expect(res.body.vet.shots.rabies.frequency).to.equal(updateData.vet.shots.rabies.frequency);
+          return Pet.findById(res.body.id);
+        })
+        .then(pet => {
+          expect(pet.name).to.equal(updateData.name);
+          expect(pet.info.petType).to.equal(updateData.info.petType);
+          expect(pet.info.breed).to.equal(updateData.info.breed);
+          expect(pet.info.weight).to.equal(updateData.info.weight);
+          expect(pet.vet.name).to.equal(updateData.vet.name);
+          expect(pet.vet.address).to.equal(updateData.vet.address);
+          expect(pet.vet.shots.rabies.date).to.equal(updateData.vet.shots.rabies.date);
+          expect(pet.vet.shots.rabies.frequency).to.equal(updateData.vet.shots.rabies.frequency);
+        });
+    });
+  });
+
   describe('DELETE', function() {
     it('Should delete pet by id', function() {
       let pet;

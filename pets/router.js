@@ -65,7 +65,7 @@ router.put('/:id', (req, res) => {
 
   Pet
     .findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
-    .then(pet => res.status(204).json(pet.serialize()))
+    .then(pet => res.status(201).json(pet.serialize()))
     .catch(err => {
       console.error(err);
       res.status(500).json({ error: 'What did you do?!' });
