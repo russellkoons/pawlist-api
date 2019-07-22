@@ -49,6 +49,29 @@ router.post('/', (req, res) => {
   });
 });
 
+router.put('/:id', (req, res) => {
+  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+    res.status(400).json({
+      error: 'Request path ID and body IDs must match'
+    });
+  }
+
+  const updated = {
+    name: req.body.name,
+    info: req.body.info,
+    vet: req.body.vet,
+    pic: req.body.pic
+  };
+
+  Pet
+    .findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
+    .then(pet => res.status(204).json(pet.serialize()))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'What did you do?!' });
+    });
+});
+
 router.delete('/:id', (req, res) => {
   Pet
     .findByIdAndDelete(req.params.id)
