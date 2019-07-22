@@ -179,26 +179,8 @@ describe('Pet Router', function() {
   });
 
   describe('PUT', function() {
-    it('should update fields you send', function() {
-      const updateData = {
-        name: 'Margot',
-        info: {
-          petType: 'Cat',
-          breed: 'Short Hair Calico',
-          weight: '15lbs'
-        },
-        vet: {
-          name: 'Dr. Cown',
-          address: 'Athens, GA',
-          shots: {
-            rabies: {
-              date: moment().format(),
-              frequency: 'Monthly'
-            }
-          }
-        },
-        pic: 'www.cutecat.com'
-      };
+    it('Should update fields you send', function() {
+      const updateData = generatePets();
       return Pet
         .findOne()
         .then(pet => {
