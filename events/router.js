@@ -49,4 +49,27 @@ router.post('/', (req, res) => {
   });
 });
 
+router.put('/:id', (req, res) => {
+  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+    res.status(400).json({
+      error: 'Request path ID and body IDs must match'
+    });
+  }
+
+  const updated = {
+    name: req.body.name,
+    info: req.body.info,
+    date: req.body.date,
+    frequency: req.body.frequency
+  };
+
+  Event
+    .findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
+    .then(event => res.status(201).json(event.serialize()))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'uuugggggHHHHH' });
+    });
+});
+
 module.exports = { router };
