@@ -72,4 +72,17 @@ router.put('/:id', (req, res) => {
     });
 });
 
+router.delete('/:id', (req, res) => {
+  Event
+    .findByIdAndDelete(req.params.id)
+    .then(() => {
+      console.log('Deleting event ' + req.params.id);
+      res.status(204).json({ message: 'Successful deletion' });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: 'Deletion failed' });
+    });
+});
+
 module.exports = { router };
