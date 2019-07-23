@@ -18,4 +18,16 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/:id', (req, res) => {
+  Event
+    .findById(req.params.id)
+    .then(event => res.json(event.serialize()))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'Ruh roh' });
+    });
+});
+
+
+
 module.exports = { router };
