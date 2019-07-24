@@ -218,6 +218,25 @@ describe('Event Router', function() {
         });
     });
   });
+
+  describe('DELETE', function() {
+    it('Should delete event by id', function() {
+      let event;
+      return Event
+        .findOne()
+        .then(e => {
+          event = e;
+          return chai.request(app).delete('/events/' + event.id);
+        })
+        .then(res => {
+          expect(res).to.have.status(204);
+          return Event.findById(event.id);
+        })
+        .then(_e => {
+          expect(_e).to.be.null;
+        });
+    });
+  });
 });
 
 describe('Pet Router', function() {
