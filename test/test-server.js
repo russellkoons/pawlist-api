@@ -85,6 +85,75 @@ describe('Testing the server', function() {
   });
 });
 
+describe('Event Router', function() {
+  before(function() {
+    return runServer(TEST_DATABASE_URL);
+  });
+
+  beforeEach(function() {
+    return seedEvents();
+  });
+
+  afterEach(function() {
+    return deleteDb();
+  });
+
+  after(function() {
+    return closeServer();
+  });
+
+  describe.only('GET', function() {
+    it('Should return events', function() {
+      let res;
+      return chai
+        .request(app)
+        .get('/events')
+        .then(r => {
+          res = r;
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.lengthOf.at.least(1);
+          return Event.countDocuments();
+        })
+        .then(count => {
+          expect(res.body).to.have.length(count);
+        });
+    });
+
+    it('Should have correct fields', function() {
+      let resEvent;
+      return chai
+        .request(app)
+        .get('/events')
+        .then(res => {
+          expect(res).to.have.status(200);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a('array');
+          expect(res.body).to.have.lengthOf.at.least(1);
+          res.body.forEach(event => {
+            expect(event).to.be.a('object');
+            expect(event).to.include.keys(
+              'id', 'user', 'name', 'info', 'date', 'frequency'
+            );
+            expect(event.info).to.include.keys(
+              'pets', 'desc'
+            );
+          });
+          resEvent = res.body[0];
+          return Event.findById(resEvent.id);
+        })
+        .then(event => {
+          expect(resEvent.id).to.equal(event.id);
+          expect(resEvent.user).to.equal(event.user);
+          expect(resEvent.name).to.equal(event.name);
+          expect(resEvent.info.pets).to.equal(event.info.pets);
+          expect(resEvent.info.desc).to.equal(event.info.desc);
+          expect(resEvent.date).to.equal(event.date);
+          expect(resEvent.frequency).to.equal(event.frequency);
+        });
+    });
+  });
+});
+
 describe('Pet Router', function() {
   before(function() {
     return runServer(TEST_DATABASE_URL);
