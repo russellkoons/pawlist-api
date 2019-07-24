@@ -74,8 +74,8 @@ function deleteDb() {
   return mongoose.connection.dropDatabase();
 }
 
-describe('Testing the server', function() {
-  it('should respond', function() {
+describe('Testing the server', () => {
+  it('should respond', () => {
     return chai
       .request(app)
       .get('/')
@@ -85,25 +85,25 @@ describe('Testing the server', function() {
   });
 });
 
-describe('Event Router', function() {
-  before(function() {
+describe('Event Router', () => {
+  before(() => {
     return runServer(TEST_DATABASE_URL);
   });
 
-  beforeEach(function() {
+  beforeEach(() => {
     return seedEvents();
   });
 
-  afterEach(function() {
+  afterEach(() => {
     return deleteDb();
   });
 
-  after(function() {
+  after(() => {
     return closeServer();
   });
 
-  describe('GET', function() {
-    it('Should return events', function() {
+  describe('GET', () => {
+    it('Should return events', () => {
       let res;
       return chai
         .request(app)
@@ -119,7 +119,7 @@ describe('Event Router', function() {
         });
     });
 
-    it('Should have correct fields', function() {
+    it('Should have correct fields', () => {
       let resEvent;
       return chai
         .request(app)
@@ -153,8 +153,8 @@ describe('Event Router', function() {
     });
   });
 
-  describe('POST', function() {
-    it('Should add a new event', function() {
+  describe('POST', () => {
+    it('Should add a new event', () => {
       const newEvent = generateEvents();
       return chai
         .request(app)
@@ -187,8 +187,8 @@ describe('Event Router', function() {
     });
   });
 
-  describe('PUT', function() {
-    it('Should update fields you send', function() {
+  describe('PUT', () => {
+    it('Should update fields you send', () => {
       const updateData = generateEvents();
       return Event
         .findOne()
@@ -219,8 +219,8 @@ describe('Event Router', function() {
     });
   });
 
-  describe('DELETE', function() {
-    it('Should delete event by id', function() {
+  describe('DELETE', () => {
+    it('Should delete event by id', () => {
       let event;
       return Event
         .findOne()
@@ -239,25 +239,25 @@ describe('Event Router', function() {
   });
 });
 
-describe('Pet Router', function() {
-  before(function() {
+describe('Pet Router', () => {
+  before(() => {
     return runServer(TEST_DATABASE_URL);
   });
 
-  beforeEach(function() {
+  beforeEach(() => {
     return seedPets();
   });
 
-  afterEach(function() {
+  afterEach(() => {
     return deleteDb();
   });
 
-  after(function() {
+  after(() => {
     return closeServer();
   });
 
-  describe('GET', function() {
-    it('Should return pets', function() {
+  describe('GET', () => {
+    it('Should return pets', () => {
       let res;
       return chai
         .request(app)
@@ -273,7 +273,7 @@ describe('Pet Router', function() {
         });
     });
 
-    it('Should have correct fields', function() {
+    it('Should have correct fields', () => {
       let resPet;
       return chai
         .request(app)
@@ -314,8 +314,8 @@ describe('Pet Router', function() {
     });
   });
 
-  describe('POST', function() {
-    it('Should add a new pet', function() {
+  describe('POST', () => {
+    it('Should add a new pet', () => {
       const newPet = generatePets();
       return chai
         .request(app)
@@ -354,8 +354,8 @@ describe('Pet Router', function() {
     });
   });
 
-  describe('PUT', function() {
-    it('Should update fields you send', function() {
+  describe('PUT', () => {
+    it('Should update fields you send', () => {
       const updateData = generatePets();
       return Pet
         .findOne()
@@ -390,8 +390,8 @@ describe('Pet Router', function() {
     });
   });
 
-  describe('DELETE', function() {
-    it('Should delete pet by id', function() {
+  describe('DELETE', () => {
+    it('Should delete pet by id', () => {
       let pet;
       return Pet
         .findOne()
@@ -410,24 +410,24 @@ describe('Pet Router', function() {
   });
 });
 
-describe('User Router', function() {
+describe('User Router', () => {
   const username = 'testUser';
   const password = 'password';
 
-  before(function() {
+  before(() => {
     return runServer(TEST_DATABASE_URL);
   });
 
-  after(function() {
+  after(() => {
     return closeServer();
   });
 
-  afterEach(function() {
+  afterEach(() => {
     return User.deleteOne({ username: 'testUser' });
   });
 
-  describe('POST', function() {
-    it('Should reject non-trimmed usernames', function() {
+  describe('POST', () => {
+    it('Should reject non-trimmed usernames', () => {
       return chai
         .request(app)
         .post('/users')
@@ -448,7 +448,7 @@ describe('User Router', function() {
         });
     });
 
-    it('Should reject non-trimmed passwords', function() {
+    it('Should reject non-trimmed passwords', () => {
       return chai
         .request(app)
         .post('/users')
@@ -469,7 +469,7 @@ describe('User Router', function() {
         });
     });
 
-    it('Should create a new user', function() {
+    it('Should create a new user', () => {
       return chai
         .request(app)
         .post('/users')
@@ -495,19 +495,19 @@ describe('User Router', function() {
   });
 });
 
-describe('Auth Router', function() {
+describe('Auth Router', () => {
   const username = 'testUser';
   const password = 'uuuggghHHHH';
 
-  before(function() {
+  before(() => {
     return runServer(TEST_DATABASE_URL);
   });
 
-  after(function() {
+  after(() => {
     return closeServer();
   });
 
-  beforeEach(function() {
+  beforeEach(() => {
     return User.hashPassword(password).then(password => 
       User.create({
         username,
@@ -516,12 +516,12 @@ describe('Auth Router', function() {
     );
   });
 
-  afterEach(function() {
+  afterEach(() => {
     return User.deleteOne({ username: 'testUser' });
   });
 
-  describe('Login', function() {
-    it('Should reject empty requests', function() {
+  describe('Login', () => {
+    it('Should reject empty requests', () => {
       return chai
         .request(app)
         .post('/auth/login')
@@ -531,7 +531,7 @@ describe('Auth Router', function() {
         });
     });
 
-    it('should reject incorrect usernames', function() {
+    it('should reject incorrect usernames', () => {
       return chai
         .request(app)
         .post('/auth/login')
@@ -542,7 +542,7 @@ describe('Auth Router', function() {
         });
     });
 
-    it('should reject incorrect passwords', function() {
+    it('should reject incorrect passwords', () => {
       return chai
         .request(app)
         .post('/auth/login')
@@ -553,7 +553,7 @@ describe('Auth Router', function() {
         });
     });
 
-    it('should return a valid auth token', function() {
+    it('should return a valid auth token', () => {
       return chai
         .request(app)
         .post('/auth/login')
@@ -571,8 +571,8 @@ describe('Auth Router', function() {
     });
   });
 
-  describe('Refresh', function(){
-    it('should reject empty requests', function() {
+  describe('Refresh', () =>{
+    it('should reject empty requests', () => {
       return chai
         .request(app)
         .post('/auth/refresh')
@@ -585,7 +585,7 @@ describe('Auth Router', function() {
         });
     });
 
-    it('should reject invalid tokens', function() {
+    it('should reject invalid tokens', () => {
       const token = jwt.sign(
         {
           username
@@ -609,7 +609,7 @@ describe('Auth Router', function() {
         });
     });
 
-    it('should reject expired tokens', function() {
+    it('should reject expired tokens', () => {
       const token = jwt.sign(
         {
          username
@@ -633,7 +633,7 @@ describe('Auth Router', function() {
         });
     });
 
-    it('should return a newer token', function() {
+    it('should return a newer token', () => {
       return chai
       .request(app)
       .post('/auth/login')
