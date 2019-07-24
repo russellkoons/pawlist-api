@@ -1,15 +1,15 @@
 language: node_js
 node_js:
-  - "8.10.0"
-services: 
-  - mongodb
+- 8.10.0
+services:
+- mongodb
 cache:
   directories:
   - node_modules
 deploy:
   provider: heroku
-  api_key:
-    secure: TzdsQ7nc3vD0NCx9LQANZmGB3cZZhdHnwlVOwLtBO4cr+Lfub61RbHcO/9qT408Dpvg7l9EPpqKxcMoj1NQBelEncugRGwHjpsozi+YDZ+vrW2khrZncUYjt3apVQxg52PaVrGh5TskDfyZqDS4Yqaqb6tHXF+f8rzowxNpGzFPzYsF8WVG8PpkUCoPzamut+x6sDLWmb0ZKbneuUCja1EpNKzW3+HS703Ab59XDha21/YXQIBsH8HCZW8yBfJxyXIhsKGwknPA8OHS4N4pYcm/2lFchXEHZTE5lY4PaVKxpSvYS1deg4UkiukRRbXZXyJKrFiUTErfyClKaS+X3HtRfXRAi5alKsgQXm9TynqW6lH4uVAUFW7XDYgAKobM1VjwR9LdccCJO12SKKyxbC8Bn+03F5qx3KCifKExJsYQ4GEdiwZ8k5DyOYb4wJekihAjZxOpBmsZBionykIlu5v5Nw2ZAPgPSIL70bbVPI7/F7EvvwcE2PHba/9kKtM3ODIahUeFofp2ZxXxDFiSOjwGAyJLpN4I/LlUcpoGTKUi6kpn9XZZ1J+xuREcEsrhrnwQmkZvOIiLuY8v7cCuuX00RvQcF370rtX++YmiGEpMCSu+KKDlyHcP+u4PJaoFiZGYwiL7rlKkRKssGi+FGvXWS5yMhZkIcSZd6rd8QNWI=
   app: pawlist-api
   on:
     repo: russellkoons/pawlist-api
+  api_key:
+    secure: RaMUbuVRjQP9ccaoJmnZJZA90xuYB7lD22z1tPAvC8+wJGP5b2+SD6fbm4xeKeAY0uTYxYfMDMqCS1kykyDGhjodjw53dAVdRkCAPBKayR/4gLAg+Uq+wNDiIVc9Adrc4oZLM2J7wcdUia44ng+AsJV4uIdtrz8pfCp6/zYCWBomgNSzsBiyNy6+m/ENnKmwPsSSfrJZ8VBC5ZWNiVjB9naY9PorAvBd+LdHTymz4m96+wZWS9oKB7C5rRlKpnqbgdU1ReGVbHL0wRcFvlV5Ty2Uei1QmRqznM7fGiZo+c6diHgWjaYsJ0kSCa5AD6/+pS4tZsLrsypdmk7uL+1Lg7qtKgFeiqY00xepVJl2Iw78HH1FJSVA59ryfyK/qqpM7owlLIEgoMftyYMR0+DAQsvGfeqW/894E9ufDTmd3cmNYTIrtdRBvqYsOgqT12QYJ7YWPHTx4ar65INISuw5txhPxYXbSXpqBVFWLPQlEKW/1BkOw3V0DQNynsHhLZqDdahhF+XEzaXWnh03O7yh/xAjyrfoAp+57DjhEWq4EKBZThUxIhboJ7w1nFb1tJjWGjlosLhi/Hk5q150E+sKzRD9jMMT6yg4M5aiOgVe0TlaCjgndGPjp0WruYckVAjLfQAmplHHC6mLuBMwy5Ex4qkAuuuT7feWpeOAq3b57bY=
