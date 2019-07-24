@@ -153,7 +153,7 @@ describe('Event Router', function() {
     });
   });
 
-  describe.only('POST', function() {
+  describe('POST', function() {
     it('Should add a new event', function() {
       const newEvent = generateEvents();
       return chai
@@ -183,6 +183,38 @@ describe('Event Router', function() {
           expect(event.info.desc).to.equal(newEvent.info.desc);
           expect(event.date).to.equal(newEvent.date);
           expect(event.frequency).to.equal(newEvent.frequency);
+        });
+    });
+  });
+
+  describe('PUT', function() {
+    it('Should update fields you send', function() {
+      const updateData = generateEvents();
+      return Event
+        .findOne()
+        .then(event => {
+          updateData.id = event.id;
+          return chai.request(app)
+            .put(`/events/${event.id}`)
+            .send(updateData);
+        })
+        .then(res => {
+          expect(res).to.have.status(201);
+          expect(res.body.user).to.equal(updateData.user);
+          expect(res.body.name).to.equal(updateData.name);
+          expect(res.body.info.pets).to.equal(updateData.info.pets);
+          expect(res.body.info.desc).to.equal(updateData.info.desc);
+          expect(res.body.date).to.equal(updateData.date);
+          expect(res.body.frequency).to.equal(updateData.frequency);
+          return Event.findById(res.body.id);
+        })
+        .then(event => {
+          expect(event.user).to.equal(updateData.user);
+          expect(event.name).to.equal(updateData.name);
+          expect(event.info.pets).to.equal(updateData.info.pets);
+          expect(event.info.desc).to.equal(updateData.info.desc);
+          expect(event.date).to.equal(updateData.date);
+          expect(event.frequency).to.equal(updateData.frequency);
         });
     });
   });
