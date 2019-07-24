@@ -11,7 +11,7 @@ const eventSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  info: {type: String},
+  info: {type: Object},
   date: {type: String},
   frequency: {type: String}
 });

@@ -9,14 +9,36 @@ const moment = require('moment');
 
 const expect = chai.expect;
 
-const { Pet, User } = require('../models');
+const { Event, Pet, User } = require('../models');
 const { app, runServer, closeServer } = require('../server');
 const { TEST_DATABASE_URL, JWT_SECRET } = require('../config');
 
 chai.use(chaiHttp);
 
+function seedEvents() {
+  console.info('Seeding events to the test server...');
+  const seed = [];
+  for (let i = 0; i < 5; i++) {
+    seed.push(generateEvents());
+  }
+  return Event.insertMany(seed);
+}
+
+function generateEvents() {
+  return {
+    user: 'testUser',
+    name: faker.random.word(),
+    info: {
+      pets: faker.random.words(),
+      desc: faker.random.words()
+    },
+    date: moment().format(),
+    frequency: 'Daily'
+  }
+}
+
 function seedPets() {
-  console.info('Seeding pets to the test server');
+  console.info('Seeding pets to the test server...');
   const seed = [];
   for (let i = 0; i < 5; i++) {
     seed.push(generatePets());
