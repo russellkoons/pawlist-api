@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "API for Pawlist",
   "main": "server.js",
+  "engines": {
+    "node": "8.10.0"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "chai": "^4.2.0",
