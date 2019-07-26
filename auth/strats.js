@@ -6,6 +6,8 @@ const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 const { User } = require('../models');
 const { JWT_SECRET } = require('../config');
 
+// Functions to check credentials
+
 const local = new LocalStrategy((username, password, callback) => {
   let user;
   User.findOne({ username: username })

@@ -1,5 +1,7 @@
 'use strict';
 
+// Router for the pets database. Used to keep track of the stats and vet info for the user's pets
+
 const express = require('express');
 
 const { Pet } = require('../models');

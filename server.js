@@ -1,5 +1,7 @@
 'use strict';
 
+// Basic setup
+
 require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
@@ -30,6 +32,8 @@ app.use(function (req, res, next) {
   next();
 });
 
+// Setting the routes
+
 app.use(express.static('public'));
 app.use(express.json());
 app.use(morgan('common'));
@@ -53,6 +57,8 @@ app.get('/secret', jwtAuth, (req, res) => {
 app.get('*', (req, res) => {
   return res.status(202).json({ data: 'Hello there' });
 });
+
+// Functions to open and close the server
 
 let server;
 

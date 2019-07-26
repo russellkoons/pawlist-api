@@ -15,6 +15,8 @@ const { TEST_DATABASE_URL, JWT_SECRET } = require('../config');
 
 chai.use(chaiHttp);
 
+// Functions to seed and delete the dbs
+
 function seedEvents() {
   console.info('Seeding events to the test server...');
   const seed = [];

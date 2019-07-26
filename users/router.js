@@ -1,5 +1,7 @@
 'use strict';
 
+// Router to create a new User
+
 const express = require('express');
 const bodyParser = require('body-parser');
 

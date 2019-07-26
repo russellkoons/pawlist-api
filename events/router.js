@@ -1,5 +1,7 @@
 'use strict';
 
+// Router for Chores and Events for your pets
+
 const express = require('express');
 
 const { Event } = require('../models');
