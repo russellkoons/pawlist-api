@@ -15,6 +15,7 @@ const { router: usersRouter } = require('./users');
 const { router: authRouter, local, jwt } = require('./auth');
 const { router: petRouter } = require('./pets');
 const { router: eventRouter } = require('./events');
+const { router: reviewRouter } = require('./roadie');
 
 mongoose.Promise = global.Promise;
 
@@ -41,6 +42,7 @@ app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/pets', petRouter);
 app.use('/events', eventRouter);
+app.use('/roadie', reviewRouter);
 
 
 passport.use(local);

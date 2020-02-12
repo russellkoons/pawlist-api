@@ -5,6 +5,24 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
+const reviewSchema = mongoose.Schema({
+  user: {type: String},
+  title: {type: String},
+  rating: {type: String},
+  review: {type: String},
+  date: {type: String}
+});
+
+reviewSchema.methods.serialize = function() {
+  return {
+    user: this.user,
+    title: this.title,
+    rating: this.rating,
+    review: this.review,
+    date: this.date
+  }
+}
+
 const eventSchema = mongoose.Schema({
   user: {type: String},
   name: {
@@ -75,10 +93,12 @@ userSchema.statics.hashPassword = function(password) {
   return bcrypt.hash(password, 10);
 }
 
+const Review = mongoose.model('review', reviewSchema);
+
 const Event = mongoose.model('event', eventSchema);
 
 const Pet = mongoose.model('pet', petSchema);
 
 const User = mongoose.model('user', userSchema);
 
-module.exports = { Event, Pet, User };
+module.exports = { Review, Event, Pet, User };
