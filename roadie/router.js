@@ -1,8 +1,7 @@
 'use strict';
 
-// Router for the pets database. Used to keep track of the stats and vet info for the user's pets
-
 const express = require('express');
+const moment = require('moment');
 
 const { Review } = require('../models');
 
@@ -26,9 +25,9 @@ router.post('/', (req, res) => {
     title: req.body.title,
     rating: req.body.rating,
     review: req.body.review,
-    date: req.body.date
+    date: moment().format('LL')
   })
-  .then(pet => res.status(201).json(pet.serialize()))
+  .then(rev => res.status(201).json(rev.serialize()))
   .catch(err => {
     console.error(err);
     res.status(500).json({ error: 'not again!' });
